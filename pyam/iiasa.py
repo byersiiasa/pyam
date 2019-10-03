@@ -341,7 +341,7 @@ class Connection(object):
         return df
 
 
-def read_iiasa(name, meta=False, **kwargs):
+def read_iiasa(name, user=None, pw=None, meta=False, **kwargs):
     """
     Query an IIASA database. See Connection.query() for more documentation
 
@@ -349,12 +349,16 @@ def read_iiasa(name, meta=False, **kwargs):
     ----------
     name : str
         A valid IIASA database name, see pyam.iiasa.valid_connection_names()
+    user : 
+        Username for authentication, if required for the specific database instance
+    pw :
+        Password for authentication, if required for the specific database instance
     meta : bool or list of strings
         If not False, also include metadata indicators (or subset if provided).
     kwargs :
         Arguments for pyam.iiasa.Connection.query()
     """
-    conn = Connection(name)
+    conn = Connection(name, creds=(user, pw))
     # data
     df = conn.query(**kwargs)
     df = IamDataFrame(df)
